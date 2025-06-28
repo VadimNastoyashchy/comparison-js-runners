@@ -1,0 +1,22 @@
+name: Manual run (matrix)
+on:
+  workflow_dispatch:
+
+jobs:
+  example-matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        runners: [scripterio, jest, mocha, vitest]
+    name: Run ${{ matrix.runners }} sample
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: npm install
+
+      - name: run test
+        run: npm run test:${{ matrix.runners }}
